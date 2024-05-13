@@ -1,31 +1,21 @@
-local=false
-
-[connections.ansi]
-dialect = 'mysql'
-driver = 'pymysql'
-database= 'planet_persib'
-port= '3306'
-password= 'Fh75io5SzY21'
-schema= 'planetps'
-hostname= 'ansi-production.ccjbghdpxc7u.ap-southeast-1.rds.amazonaws.com'
-username= 'admin'
+local=true
 
 [ansi]
-dialect = 'mysql'
-driver = 'pymysql'
-database= 'planet_persib'
+dialect = "mysql"
+driver = "pymysql"
+dbname= 'planet_persib'
 port= '3306'
 password= 'Fh75io5SzY21'
 schema= 'planetps'
 hostname= 'ansi-production.ccjbghdpxc7u.ap-southeast-1.rds.amazonaws.com'
 username= 'admin'
 
-[connections.installment]
-dialect = 'postgresql'
+[installment]
+dialect = "postgresql"
 hostname= 'pp-production.ccjbghdpxc7u.ap-southeast-1.rds.amazonaws.com'
 username= 'ppnftproduser'
 password= 'rfCGJA6KMqjSFanwcg25EpvZhks3RNtU'
-database= 'pp_installment_db_prod'
+dbname= 'pp_installment_db_prod'
 port='5432'
 
 [tunnel]

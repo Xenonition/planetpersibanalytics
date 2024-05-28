@@ -1,0 +1,7 @@
+streamlit
+sshtunnel
+paramiko
+pymysql
+sqlalchemy
+plotly
+psycopg2-binary

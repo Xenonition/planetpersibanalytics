@@ -6,6 +6,8 @@ import plotly.express as px
 from helpers import *
 from plotly import graph_objects as go
 
+st.set_page_config(layout="wide")
+
 dfs = df_connect()
 
 left, middle, right = st.columns(3)
@@ -16,7 +18,7 @@ with left:
     payment_df = pd.merge(dfs['transactions'], dfs['pp_users'], left_on='user_id', right_on='id')
     full_df = payment_df.query('payment_status == "success" & installment_user == 0')[['displayname', 'email', 'phone_number', 'updated_at_x', 'amount']]
 
-    full_chart = payment_df[['updated_at_x', 'amount']].resample('D', on='updated_at_x').count().reset_index().rename(columns={"amount": "count"})
+    full_chart = full_df[['updated_at_x', 'amount']].resample('D', on='updated_at_x').count().reset_index().rename(columns={"amount": "count"})
     full_fig = px.line(full_chart, x='updated_at_x', y='count', title='Full Payment Sales')
     full_fig.update_layout(showlegend=False, xaxis_title="Date", yaxis_title="Transactions")
     st.plotly_chart(full_fig, use_container_width=True)
@@ -35,17 +37,18 @@ with left:
 with middle:
     st.header("Installment Sales")
 
-    installment_status_df = dfs['user_payments'].groupby('user_installment_id').agg({'created_date':'last', 'status':installment_status}).reset_index()
+    installment_setup_df = dfs['user_payments'].groupby('user_installment_id').agg({'created_date':'last', 'status':installment_status}).reset_index()
+    
     installment_df = pd.merge(dfs['installments'], dfs['installment_users'], left_on='user_info_id', right_on='id')
     installment_df = pd.merge(installment_df, dfs['pp_users'], left_on='planet_persib_user_id', right_on='id')
-    installment_df = pd.merge(installment_df, installment_status_df, left_on='id_x', right_on='user_installment_id')
-
-    installment_status_df = pd.DataFrame(installment_df['status'].value_counts()).reset_index()
-    installment_status_fig = px.pie(installment_status_df, names='status', values='count', title='Installment Status Distribution')
+    installment_df = pd.merge(installment_df, installment_setup_df, left_on='id_x', right_on='user_installment_id')
+    
+    installment_status_df = pd.DataFrame(installment_df['status_y'].value_counts()).reset_index()
+    installment_status_fig = px.pie(installment_status_df, names='status_y', values='count', title='Installment Status Distribution')
     st.plotly_chart(installment_status_fig, use_container_width=True)
 
     st.metric('Total Installment Users', len(installment_df), '{0}%'.format('?'))
-    st.write(installment_df[['displayname', 'email', 'phone_number', 'address', 'down_payment', 'monthly_payment','tenor','created_date','status']])
+    st.write(installment_df[['displayname', 'email', 'phone_number', 'address', 'down_payment', 'monthly_payment','tenor','created_date','status_y']])
 
 with right:
     st.header("Engagement")

@@ -44,6 +44,7 @@ def df_connect():
             conn = st.connection("ansi", type="sql", host=tunnel.local_bind_host, port=tunnel.local_bind_port,)
             transaction_df = conn.query('select * from purchase_transactions')
             user_df = conn.query('select * from users')
+            #st.write(conn.query('select * from waitlists'))
         
         with tunnels['installment'] as tunnel:
             conn = st.connection("installment", type="sql", host=tunnel.local_bind_host, port=tunnel.local_bind_port,)

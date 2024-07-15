@@ -20,5 +20,5 @@ port='5432'
 
 [tunnel]
 username='ubuntu'
-hostname='ec2-54-255-137-126.ap-southeast-1.compute.amazonaws.com'
+hostname='13.229.225.89'
 pkey='william-pp'

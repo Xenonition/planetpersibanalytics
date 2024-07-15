@@ -73,4 +73,4 @@ def installment_status(x):
         return 'Payment Due'
     
 def weird_division(n, d):
-    return (n - d) / d * 100 if d else (n - d) / (d+1) * 100
+    return (n - d) / d if d else (n - d) / (d+1)
